@@ -1,6 +1,7 @@
 # !/usr/bin/env 
 
 import scrapy
+from scrapy.loader import ItemLoader
 from cvk.items import CvkItem
 
 
@@ -16,9 +17,12 @@ class BasicSpider(scrapy.Spider):
         """
         Initial parse
         """
-        item = CvkItem()
-        item['name'] = response.xpath(
-            '//table[@class="t2"][3]/tbody/tr/td[@class="td2"][2]/text()').extract()
-        item['birth'] = response.xpath(
-            '//table[@class="t2"][3]/tbody/tr/td[@class="td2"][4]/text()').extract()
-        return item
+        item_loader = ItemLoader(item=CvkItem(), response=response)
+        item_loader.add_xpath(
+            'name',
+            '//table[@class="t2"][3]/tbody/tr/td[@class="td2"][2]/text()')
+        item_loader.add_xpath(
+            'birth',
+            '//table[@class="t2"][3]/tbody/tr/td[@class="td2"][4]/text()')
+
+        return item_loader.load_item()
