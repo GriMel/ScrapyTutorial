@@ -1,6 +1,7 @@
-#!/usr/bin/env 
+# !/usr/bin/env 
 
 import scrapy
+from cvk.items import CvkItem
 
 
 class BasicSpider(scrapy.Spider):
@@ -15,7 +16,9 @@ class BasicSpider(scrapy.Spider):
         """
         Initial parse
         """
-        self.log("Name: %s" % response.xpath(
-            '//table[@class="t2"][3]/tbody/tr/td[@class="td2"][2]/text()').extract)
-        self.log("Date birth: %s" % response.xpath(
-            '//table[@class="t2"][3]/tbody/tr/td[@class="td2"][4]/text()').extract())
+        item = CvkItem()
+        item['name'] = response.xpath(
+            '//table[@class="t2"][3]/tbody/tr/td[@class="td2"][2]/text()').extract()
+        item['birth'] = response.xpath(
+            '//table[@class="t2"][3]/tbody/tr/td[@class="td2"][4]/text()').extract()
+        return item
