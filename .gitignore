@@ -1,2 +1,7 @@
+*.pyc
+.project
+.pydevproject
+*.ini
+*.db
 *.sublime-*
 *.json
